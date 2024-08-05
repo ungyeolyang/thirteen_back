@@ -1,5 +1,7 @@
 package com.thirteen_back.dto;
 
+import com.thirteen_back.constant.Social;
+import com.thirteen_back.entity.Member;
 import lombok.*;
 
 @Getter

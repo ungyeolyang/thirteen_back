@@ -15,12 +15,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Member {
     @Id
-    @Column(name = "uno")
+    @Column(name = "mno")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long uno;
+    private Long mno;
     @Column(unique = true,nullable = false)
     private String mid;
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String nick;
     @Column(nullable = false)
     private String pwd;
@@ -35,9 +35,6 @@ public class Member {
     private String refreshToken;
     @Column(name="refresh_token_exp")
     private Long refreshTokenExpiresIn;
-
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
-    private List<Chatting> sentMessages;
 
     @Builder
     public Member(String nick, String mid, String pwd, String email, String image, Social social, Authority authority) {

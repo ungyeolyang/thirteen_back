@@ -32,6 +32,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean // SecurityFilterChain 객체를 Bean으로 등록
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // HttpSecurity 객체를 통해 Spring Security 설정을 구성합니다.
         http
+                .cors().and()
                 .httpBasic() // HTTP 기본 인증을 활성화합니다.
                 .and()
                 .csrf().disable() // CSRF(Cross-Site Request Forgery) 보호를 비활성화합니다.
@@ -54,7 +55,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5000", "https://seethestars.store")
+                .allowedOrigins("http://localhost:3000")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true);
