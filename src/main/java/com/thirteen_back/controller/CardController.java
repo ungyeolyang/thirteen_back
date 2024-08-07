@@ -22,32 +22,32 @@ public class CardController {
     private final CardService cardService;
 
     // 카드 생성 & 저장
-    @PostMapping("/create")
-    public ResponseEntity<Boolean> createCard(@RequestBody CardDto cardDto) {
-        return ResponseEntity.ok(cardService.saveCard(cardDto));
-    }
-
-    // 카드 정보 수정
-    @PostMapping("/update")
-    public ResponseEntity<Boolean> updateCard(@RequestBody CardDto cardDto) {
-        return ResponseEntity.ok(cardService.updateCard(cardDto));
-    }
-
-    // 카드 삭제
-    @DeleteMapping("/delete/{cno}")
-    public ResponseEntity<Boolean> deleteCard(@PathVariable Long cno) {
-        return ResponseEntity.ok(cardService.deleteCard(cno));
-    }
-
-    // 카드 전체 목록 조회
-    @GetMapping("/list")
-    public ResponseEntity<List<CardDto>> cardList() {
-        return ResponseEntity.ok(cardService.cardList());
-    }
-
-    // 연회비 적은 순으로 조회
-    @GetMapping("/low-annual-fee")
-    public ResponseEntity<List<CardDto>> lowAnnualFeeCard() {
-        return ResponseEntity.ok(cardService.lowAnnualFeeAsc());
-    }
+//    @PostMapping("/create")
+//    public ResponseEntity<Boolean> createCard(@RequestBody CardDto cardDto) {
+//        return ResponseEntity.ok(cardService.saveCard(cardDto));
+//    }
+//
+//    // 카드 정보 수정
+//    @PostMapping("/update")
+//    public ResponseEntity<Boolean> updateCard(@RequestBody CardDto cardDto) {
+//        return ResponseEntity.ok(cardService.updateCard(cardDto));
+//    }
+//
+//    // 카드 삭제
+//    @DeleteMapping("/delete/{cno}")
+//    public ResponseEntity<Boolean> deleteCard(@PathVariable Long cno) {
+//        return ResponseEntity.ok(cardService.deleteCard(cno));
+//    }
+//
+//    // 카드 전체 목록 조회
+//    @GetMapping("/list")
+//    public ResponseEntity<List<CardDto>> cardList() {
+//        return ResponseEntity.ok(cardService.cardList());
+//    }
+//
+//    // 연회비 적은 순으로 조회
+//    @GetMapping("/low-annual-fee")
+//    public ResponseEntity<List<CardDto>> lowAnnualFeeCard() {
+//        return ResponseEntity.ok(cardService.lowAnnualFeeAsc());
+//    }
 }

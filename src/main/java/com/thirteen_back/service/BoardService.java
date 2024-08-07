@@ -1,89 +1,72 @@
+
 package com.thirteen_back.service;
 
-import com.thirteen_back.constant.Category;
+import com.thirteen_back.constant.BoardCategory;
 import com.thirteen_back.dto.BoardDto;
 import com.thirteen_back.entity.Board;
 import com.thirteen_back.entity.Member;
 import com.thirteen_back.repository.BoardRepository;
-import com.thirteen_back.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
 @Slf4j
+@Service
+@Transactional
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-// 게시글 생성 & 저장
-    public boolean saveBoard(BoardDto boardDto) {
-        Member member = memberRepository.findById(boardDto.getMno())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
-        Board board = Board.builder()
-                .title(boardDto.getTitle())
-                .content(boardDto.getContent())
-                .bdate(boardDto.getBdate())
-                .category(Category.valueOf(boardDto.getCategory()))
-                .member(member)
-                .warning(boardDto.getWarning())
-                .build();
-        boardRepository.save(board);
-        return true;
+    public BoardCategory reCate(String cate){
+        if(cate.equals("faq")){
+            return BoardCategory.BOARD_FAQ;
+        } else if (cate.equals("gong")) {
+            return BoardCategory.BOARD_GONG;
+        } else {
+            return BoardCategory.BOARD_MOUN;
+        }
     }
-// 게시글 삭제
-    public boolean deleteBoard(Long bno) {
+
+    public boolean boardSave(BoardDto dto) {
         try {
-            Board board = boardRepository.findById(bno).orElseThrow(
-                    () -> new RuntimeException("해당 댓글이 존재하지 않습니다.")
-            );
-            boardRepository.delete(board);
+            Member member = memberService.memberIdFindMember();
+            BoardCategory boardCategory =reCate(dto.getCate());
+
+            Board board = Board.builder()
+                    .bdate(LocalDateTime.now())
+                    .title(dto.getTitle())
+                    .content(dto.getContent())
+                    .category(boardCategory)
+                    .memberbno(member)
+                    .build();
+
+            boardRepository.save(board);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-// 게시글 수정
-    public boolean updateBoard(BoardDto dto) {
-        log.warn("updateBoard 실행!");
-        Board board = boardRepository.findById(dto.getBno()).orElseThrow(
-                () -> new RuntimeException("해당 글이 존재하지 않습니다."));
-        board.setTitle(dto.getTitle());
-        board.setContent(dto.getContent());
-        board.setWarning(dto.getWarning());
-        board.setBdate(LocalDateTime.now());
-        board.setCategory(Category.valueOf(dto.getCategory()));
-        boardRepository.save(board);
-        return true;
-    }
-// 게시판 목록 보여주기
-    public List<BoardDto> boardList() {
-        List<Board> boards = boardRepository.findAll();
-        return boards.stream().map(this::convertEntityToDto).collect(Collectors.toList());
-    }
-// 내가 쓴 게시글 보여주기
-    public List<BoardDto> myBoardList(Long mno) {
-        Member member = memberRepository.findById(mno)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid member ID"));
-        List<Board> boards = boardRepository.findByMember(member);
-        return boards.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+
+    public List<BoardDto> selectBoard(String cate){
+        List<BoardDto> list = new ArrayList<>();
+        try{
+            BoardCategory boardCategory =reCate(cate);
+            List<Board> boards = boardRepository.findByCategory(boardCategory);
+            for (Board b : boards) {
+                BoardDto dto = BoardDto.of(b);
+                list.add(dto);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return list;
     }
 
-    private BoardDto convertEntityToDto(Board board) {
-        return BoardDto.builder()
-                .bno(board.getBno())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .bdate(board.getBdate())
-                .warning(board.getWarning())
-                .category(String.valueOf(board.getCategory()))
-                .mno(board.getMember().getMno())
-                .build();
-    }
 }

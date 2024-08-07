@@ -1,41 +1,36 @@
+
 package com.thirteen_back.controller;
 
 import com.thirteen_back.dto.BoardDto;
+import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.service.BoardService;
 import com.thirteen_back.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/board")
+@RequiredArgsConstructor
 public class BoardController {
-    private final MemberService memberService;
-    private final BoardService boardService;
+    public final MemberService memberService;
+    public final BoardService boardService;
 
-    @GetMapping("/myboardlist")
-    public ResponseEntity<List<BoardDto>> myBoardList(@RequestParam Long mno) {
-        List<BoardDto> list = boardService.myBoardList(mno);
-        return ResponseEntity.ok(list);
+    @GetMapping("/alluser")
+    public ResponseEntity<List<MemberResDto>> getAllUser(){
+        return ResponseEntity.ok(memberService.allUsers());
     }
 
-    @PostMapping("/board")
-    public ResponseEntity<Boolean> createBoard(@RequestBody BoardDto board) {
-        return ResponseEntity.ok(boardService.saveBoard(board));
+    @GetMapping("/blist/{cate}")
+    public ResponseEntity<List<BoardDto>> boardList(@PathVariable("cate") String cate){
+        return ResponseEntity.ok(boardService.selectBoard(cate));
     }
-    @PostMapping("/delete/{bno}")
-    public ResponseEntity<Boolean> deleteBoard(@PathVariable Long bno) {
-        boolean result = boardService.deleteBoard(bno);
-        return ResponseEntity.ok(result);
-    }
-    @PostMapping("/update")
-    public ResponseEntity<Boolean> boardUpdate(@RequestBody BoardDto board) {
-        return ResponseEntity.ok(boardService.updateBoard(board));
+
+    @PostMapping("/bsave")
+    public ResponseEntity<Boolean> insertBoard(@RequestBody BoardDto boardDto){
+        return ResponseEntity.ok(boardService.boardSave(boardDto));
     }
 }
+

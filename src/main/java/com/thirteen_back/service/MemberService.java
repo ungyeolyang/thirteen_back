@@ -1,6 +1,8 @@
 package com.thirteen_back.service;
 
+import com.thirteen_back.constant.Authority;
 import com.thirteen_back.dto.MemberReqDto;
+import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.entity.Member;
 import com.thirteen_back.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.thirteen_back.security.SecurityUtil.getCurrentMemberId;
@@ -69,5 +73,20 @@ public class MemberService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public List<MemberResDto> allUsers(){
+        List<MemberResDto> list = new ArrayList<>();
+        try {
+            List<Member> members = memberRepository.findAll();
+            for (Member m : members) {
+                if(m.getAuthority() == Authority.ROLL_USER){
+                    list.add(MemberResDto.of(m));
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }

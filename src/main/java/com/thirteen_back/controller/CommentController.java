@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/comment")
 public class CommentController {
-    private final CommentService commentService;
-    // 댓글 저장
-    @PostMapping("/new")
-    public ResponseEntity<Boolean> saveComment(@RequestBody CommentDto commentDto) {
-        return ResponseEntity.ok(commentService.saveComment(commentDto));
-    }
-    // 댓글 삭제
-    @DeleteMapping("/delete/{cno}")
-    public ResponseEntity<Boolean> deleteComment(@PathVariable Long cno){
-        return ResponseEntity.ok(commentService.commentDelete(cno));
-    }
-
-    // 댓글 수정
-    @PutMapping("/modify")
-    public ResponseEntity<Boolean> modifyComment(@RequestBody CommentDto commentDto) {
-        return ResponseEntity.ok(commentService.commentModify(commentDto));
-    }
+//    private final CommentService commentService;
+//    // 댓글 저장
+//    @PostMapping("/new")
+//    public ResponseEntity<Boolean> saveComment(@RequestBody CommentDto commentDto) {
+//        return ResponseEntity.ok(commentService.saveComment(commentDto));
+//    }
+//    // 댓글 삭제
+//    @DeleteMapping("/delete/{cno}")
+//    public ResponseEntity<Boolean> deleteComment(@PathVariable Long cno){
+//        return ResponseEntity.ok(commentService.commentDelete(cno));
+//    }
+//
+//    // 댓글 수정
+//    @PutMapping("/modify")
+//    public ResponseEntity<Boolean> modifyComment(@RequestBody CommentDto commentDto) {
+//        return ResponseEntity.ok(commentService.commentModify(commentDto));
+//    }
 }

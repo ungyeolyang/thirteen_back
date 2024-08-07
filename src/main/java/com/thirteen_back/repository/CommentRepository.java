@@ -14,9 +14,5 @@ import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByBoard(Board board);
-    Page<Comment> findByBoard(Board board, Pageable pageable);
-    Optional<Comment> findByCno(Long cno);
-    List<Comment> findByTextContaining(String text);
-//    Optional<Comment> findByMno(Long mno);
+
 }
