@@ -2,9 +2,11 @@ package com.thirteen_back.entity;
 
 import com.thirteen_back.constant.Authority;
 import com.thirteen_back.constant.Social;
+import com.thirteen_back.constant.TF;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -27,6 +29,8 @@ public class Member {
     @Column(unique = true)
     private String email;
     private String image;
+    private LocalDateTime mdate;
+    private TF withdrawal;
     @Enumerated(EnumType.STRING)
     private Authority authority;
     @Enumerated(EnumType.STRING)
@@ -45,5 +49,7 @@ public class Member {
         this.image = image;
         this.social = social;
         this.authority = authority;
+        this.mdate = LocalDateTime.now();
+        this.withdrawal = TF.TRUE;
     }
 }
