@@ -61,6 +61,10 @@ public class MemberService {
                 member.setEmail(info);
                 memberRepository.save(member);
                 return true;
+            case 5:
+                member.setPay(Long.parseLong(info));
+                memberRepository.save(member);
+                return true;
             default:
                 return false;
         }

@@ -31,6 +31,7 @@ public class Member {
     private String image;
     private LocalDateTime mdate;
     private TF withdrawal;
+    private Long pay;
     @Enumerated(EnumType.STRING)
     private Authority authority;
     @Enumerated(EnumType.STRING)

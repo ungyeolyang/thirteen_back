@@ -15,6 +15,7 @@ public class MemberResDto {
     private String mid;
     private String image;
     private Social social;
+    private Long pay;
 
     public static MemberResDto of (Member member){
         return MemberResDto.builder()
@@ -23,6 +24,7 @@ public class MemberResDto {
                 .email(member.getEmail())
                 .image(member.getImage())
                 .social(member.getSocial())
+                .pay(member.getPay())
                 .build();
     }
 }
