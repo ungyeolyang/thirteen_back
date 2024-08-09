@@ -1,5 +1,6 @@
 package com.thirteen_back.service;
 
+import com.thirteen_back.constant.TF;
 import com.thirteen_back.dto.MemberReqDto;
 import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.dto.TokenDto;
@@ -54,6 +55,12 @@ public class AuthService {
     }
 
     public TokenDto login(MemberReqDto requestDto) {
+        Optional<Member> mem = memberRepository.findByMid(requestDto.getMid());
+        if(mem.isPresent()){
+            if(mem.get().getWithdrawal().equals(TF.FALSE)){
+              return null;
+            }
+        }
         try{
             UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 

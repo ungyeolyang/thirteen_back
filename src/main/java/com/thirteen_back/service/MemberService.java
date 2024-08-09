@@ -1,6 +1,7 @@
 package com.thirteen_back.service;
 
 import com.thirteen_back.constant.Authority;
+import com.thirteen_back.constant.TF;
 import com.thirteen_back.dto.MemberReqDto;
 import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.entity.Member;
@@ -72,7 +73,8 @@ public class MemberService {
     public boolean withdraw(){
         try {
             Member member = memberIdFindMember();
-            memberRepository.delete(member);
+            member.setWithdrawal(TF.FALSE);
+            memberRepository.save(member);
             return true;
         } catch (Exception e) {
             return false;
