@@ -19,7 +19,7 @@ public class Comment {
     private Long cno;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "uno")
+    @JoinColumn(name = "mno")
     private Member membercno;
 
     @ManyToOne(fetch = FetchType.LAZY)

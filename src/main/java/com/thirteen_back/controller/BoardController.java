@@ -28,9 +28,29 @@ public class BoardController {
         return ResponseEntity.ok(boardService.selectBoard(cate));
     }
 
+    @GetMapping("/bdetail/{bno}")
+    public ResponseEntity<BoardDto> getBoardDetail(@PathVariable("bno") Long bno){
+        return ResponseEntity.ok(boardService.getBoardDetail(bno));
+    }
+
     @PostMapping("/bsave")
-    public ResponseEntity<Boolean> insertBoard(@RequestBody BoardDto boardDto){
-        return ResponseEntity.ok(boardService.boardSave(boardDto));
+    public ResponseEntity<Boolean> insertBoard(@RequestBody BoardDto dto){
+        return ResponseEntity.ok(boardService.boardSave(dto));
+    }
+
+    @PostMapping("/userback/{mid}")
+    public ResponseEntity<Boolean> userComeBack(@PathVariable("mid") String mid){
+        return ResponseEntity.ok(boardService.memberComeBack(mid));
+    }
+
+    @PostMapping("/bupdate")
+    public ResponseEntity<Boolean> boardUpdate(@RequestBody BoardDto dto){
+        return ResponseEntity.ok(boardService.modifyBoard(dto));
+    }
+
+    @PostMapping("/bdelete/{bno}")
+    public ResponseEntity<Boolean> boardDelete(@PathVariable("bno") Long bno){
+        return ResponseEntity.ok(boardService.deleteBoard(bno));
     }
 }
 
