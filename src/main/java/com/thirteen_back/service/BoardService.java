@@ -73,12 +73,13 @@ public class BoardService {
         return list;
     }
 
-    public boolean memberComeBack(String mid) {
+    public boolean memberComeBack(String mid, boolean tf) {
         try {
+            TF t = tf? TF.TRUE : TF.FALSE;
             Optional<Member> member = memberRepository.findByMid(mid);
             if (member.isPresent()) {
                 Member m = member.get();
-                m.setWithdrawal(TF.TRUE);
+                m.setWithdrawal(t);
                 memberRepository.save(m);
                 return true;
             }

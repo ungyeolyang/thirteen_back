@@ -1,6 +1,7 @@
 
 package com.thirteen_back.controller;
 
+import com.thirteen_back.constant.TF;
 import com.thirteen_back.dto.BoardDto;
 import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.service.BoardService;
@@ -38,9 +39,9 @@ public class BoardController {
         return ResponseEntity.ok(boardService.boardSave(dto));
     }
 
-    @PostMapping("/userback/{mid}")
-    public ResponseEntity<Boolean> userComeBack(@PathVariable("mid") String mid){
-        return ResponseEntity.ok(boardService.memberComeBack(mid));
+    @PostMapping("/userback/{mid}/{tf}")
+    public ResponseEntity<Boolean> userComeBack(@PathVariable("mid") String mid, @PathVariable("tf") boolean tf){
+        return ResponseEntity.ok(boardService.memberComeBack(mid,tf));
     }
 
     @PostMapping("/bupdate")
