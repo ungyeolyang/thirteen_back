@@ -1,6 +1,7 @@
 package com.thirteen_back.dto;
 
 import com.thirteen_back.constant.BoardCategory;
+import com.thirteen_back.constant.TF;
 import com.thirteen_back.entity.Board;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class BoardDto {
 //    private String warning; // 신고
     private LocalDateTime bdate;
     private String cate;
+    private TF tf;
 
     public static BoardDto of(Board board){
         String category = "";
@@ -29,6 +31,10 @@ public class BoardDto {
         } else if (board.getCategory()== BoardCategory.BOARD_MOUN) {
             category="moun";
         }
+//        boolean tf = false;
+//        if(board.getTf() == TF.TRUE){
+//            tf= true;
+//        }
 
         return BoardDto.builder()
                 .bno(board.getBno())
@@ -38,6 +44,7 @@ public class BoardDto {
 //                .warning(board.getWarning())
                 .bdate(board.getBdate())
                 .cate(category)
+                .tf(board.getTf())
                 .build();
     }
 }

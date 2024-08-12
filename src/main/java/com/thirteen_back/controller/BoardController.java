@@ -3,6 +3,7 @@ package com.thirteen_back.controller;
 
 import com.thirteen_back.constant.TF;
 import com.thirteen_back.dto.BoardDto;
+import com.thirteen_back.dto.CommentDto;
 import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.service.BoardService;
 import com.thirteen_back.service.MemberService;
@@ -52,6 +53,21 @@ public class BoardController {
     @PostMapping("/bdelete/{bno}")
     public ResponseEntity<Boolean> boardDelete(@PathVariable("bno") Long bno){
         return ResponseEntity.ok(boardService.deleteBoard(bno));
+    }
+
+    @GetMapping("/bcomment/{bno}")
+    public ResponseEntity<CommentDto> viewComment(@PathVariable("bno") Long bno){
+        return ResponseEntity.ok(boardService.selectCnoComment(bno));
+    }
+
+    @PostMapping("/csave")
+    public ResponseEntity<Boolean> commentSave(@RequestBody CommentDto dto){
+        return ResponseEntity.ok(boardService.createComment(dto));
+    }
+
+    @PostMapping("/cupdate")
+    public ResponseEntity<Boolean> commentUpdate(@RequestBody CommentDto dto){
+        return ResponseEntity.ok(boardService.modifyComment(dto));
     }
 }
 

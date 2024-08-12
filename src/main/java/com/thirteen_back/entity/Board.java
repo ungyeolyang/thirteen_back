@@ -1,6 +1,7 @@
 package com.thirteen_back.entity;
 
 import com.thirteen_back.constant.BoardCategory;
+import com.thirteen_back.constant.TF;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,4 +31,7 @@ public class Board {
 
     @Enumerated(EnumType.STRING)
     private BoardCategory category; // q&a인지 게시판인지
+
+    @Enumerated(EnumType.STRING)
+    private TF tf; // 답글 여부
 }
