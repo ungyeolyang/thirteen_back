@@ -5,6 +5,8 @@ import com.thirteen_back.constant.TF;
 import com.thirteen_back.entity.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class MemberResDto {
     private Social social;
     private TF tf;
     private Long pay;
+    private LocalDateTime mdate;
 
     public static MemberResDto of (Member member){
         return MemberResDto.builder()
@@ -28,6 +31,7 @@ public class MemberResDto {
                 .social(member.getSocial())
                 .tf(member.getWithdrawal())
                 .pay(member.getPay())
+                .mdate(member.getMdate())
                 .build();
     }
 }

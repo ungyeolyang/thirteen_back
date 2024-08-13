@@ -1,6 +1,10 @@
 package com.thirteen_back.repository;
 
+import com.thirteen_back.constant.Authority;
+import com.thirteen_back.constant.TF;
 import com.thirteen_back.entity.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +23,5 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     boolean existsByNick(String nick);
     boolean existsByMid(String id);
     boolean existsByRefreshToken(String refreshToken);
+    Page<Member> findByAuthority(Authority authority, Pageable pageable);
 }

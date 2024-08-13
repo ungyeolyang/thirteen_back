@@ -8,13 +8,13 @@ import com.thirteen_back.entity.Member;
 import com.thirteen_back.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.thirteen_back.security.SecurityUtil.getCurrentMemberId;
 
@@ -27,25 +27,27 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member memberIdFindMember(){
+    public Member memberIdFindMember() {
         String id = getCurrentMemberId();
-        log.info("userId:{}",String.valueOf(id));
+        log.info("userId:{}", String.valueOf(id));
         Member mem = new Member();
         Optional<Member> member = memberRepository.findByMid(id);
-        if(member.isPresent()){
+        if (member.isPresent()) {
             mem = member.get();
         }
         return mem;
     }
-    public boolean checkPw(MemberReqDto memberReqDto){
+
+    public boolean checkPw(MemberReqDto memberReqDto) {
         String pw1 = memberReqDto.getPwd();
         String pw2 = memberIdFindMember().getPwd();
-        Boolean istrue = passwordEncoder.matches(pw1,pw2);
+        Boolean istrue = passwordEncoder.matches(pw1, pw2);
         return istrue;
     }
-    public boolean editInfo(String info, int type){
+
+    public boolean editInfo(String info, int type) {
         Member member = memberIdFindMember();
-        switch (type){
+        switch (type) {
             case 1:
                 member.setImage(info);
                 memberRepository.save(member);
@@ -70,7 +72,8 @@ public class MemberService {
                 return false;
         }
     }
-    public boolean withdraw(){
+
+    public boolean withdraw() {
         try {
             Member member = memberIdFindMember();
             member.setWithdrawal(TF.FALSE);
@@ -81,18 +84,25 @@ public class MemberService {
         }
     }
 
-    public List<MemberResDto> allUsers(){
+    public Map<String, Object> allUsers(int page) {
+        List<Member> members;
         List<MemberResDto> list = new ArrayList<>();
+        int cnt;
+        Pageable pageable = PageRequest.of(page, 5);
+        Map<String, Object> result = new HashMap<>();
         try {
-            List<Member> members = memberRepository.findAll();
+            members = memberRepository.findByAuthority(Authority.ROLL_USER, pageable).getContent();
+            cnt = memberRepository.findByAuthority(Authority.ROLL_USER, pageable).getTotalPages();
+
             for (Member m : members) {
-                if(m.getAuthority() == Authority.ROLL_USER){
-                    list.add(MemberResDto.of(m));
-                }
+                list.add(MemberResDto.of(m));
             }
-        }catch (Exception e) {
+            result.put("user", list);
+            result.put("page", cnt);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return result;
     }
 }

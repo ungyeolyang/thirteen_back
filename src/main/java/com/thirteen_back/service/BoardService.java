@@ -13,13 +13,14 @@ import com.thirteen_back.repository.CommentRepository;
 import com.thirteen_back.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -63,19 +64,25 @@ public class BoardService {
         }
     }
 
-    public List<BoardDto> selectBoard(String cate) {
+    public Map<String, Object> selectBoard(String cate, int page) {
         List<BoardDto> list = new ArrayList<>();
+        Pageable pageable = PageRequest.of(page, 5);
+        Map<String, Object> result = new HashMap<>();
+        int cnt;
         try {
             BoardCategory boardCategory = reCate(cate);
-            List<Board> boards = boardRepository.findByCategory(boardCategory);
+            List<Board> boards = boardRepository.findByCategory(boardCategory,pageable).getContent();
+            cnt = boardRepository.findByCategory(boardCategory,pageable).getTotalPages();
             for (Board b : boards) {
                 BoardDto dto = BoardDto.of(b);
                 list.add(dto);
             }
+            result.put("board",list);
+            result.put("page",cnt);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return result;
     }
 
     public boolean memberComeBack(String mid, boolean tf) {

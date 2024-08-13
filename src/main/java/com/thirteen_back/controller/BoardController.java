@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/board")
@@ -20,14 +21,14 @@ public class BoardController {
     public final MemberService memberService;
     public final BoardService boardService;
 
-    @GetMapping("/alluser")
-    public ResponseEntity<List<MemberResDto>> getAllUser(){
-        return ResponseEntity.ok(memberService.allUsers());
+    @GetMapping("/alluser/{page}")
+    public ResponseEntity<Map<String, Object>> getAllUser(@PathVariable("page") int page){
+        return ResponseEntity.ok(memberService.allUsers(page));
     }
 
-    @GetMapping("/blist/{cate}")
-    public ResponseEntity<List<BoardDto>> boardList(@PathVariable("cate") String cate){
-        return ResponseEntity.ok(boardService.selectBoard(cate));
+    @GetMapping("/blist/{cate}/{page}")
+    public ResponseEntity<Map<String, Object>> boardList(@PathVariable("cate") String cate, @PathVariable("page") int page){
+        return ResponseEntity.ok(boardService.selectBoard(cate,page));
     }
 
     @GetMapping("/bdetail/{bno}")
