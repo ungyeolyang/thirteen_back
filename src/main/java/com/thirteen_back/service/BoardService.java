@@ -1,10 +1,12 @@
 
 package com.thirteen_back.service;
 
+import com.thirteen_back.constant.Authority;
 import com.thirteen_back.constant.BoardCategory;
 import com.thirteen_back.constant.TF;
 import com.thirteen_back.dto.BoardDto;
 import com.thirteen_back.dto.CommentDto;
+import com.thirteen_back.dto.MemberResDto;
 import com.thirteen_back.entity.Board;
 import com.thirteen_back.entity.Comment;
 import com.thirteen_back.entity.Member;
@@ -221,6 +223,19 @@ public class BoardService {
             commentDto.setComment("오류발생");
         }
         return commentDto;
+    }
+
+    public List<MemberResDto> allUserTf(){
+        List<MemberResDto> list = new ArrayList<>();
+        try {
+            List<Member> members = memberRepository.findByAuthority(Authority.ROLL_USER);
+            for (Member m : members) {
+                list.add(MemberResDto.of(m));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 }

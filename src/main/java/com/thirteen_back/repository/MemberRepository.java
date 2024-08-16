@@ -24,4 +24,5 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     boolean existsByMid(String id);
     boolean existsByRefreshToken(String refreshToken);
     Page<Member> findByAuthority(Authority authority, Pageable pageable);
+    List<Member> findByAuthority(Authority authority);
 }

@@ -70,5 +70,10 @@ public class BoardController {
     public ResponseEntity<Boolean> commentUpdate(@RequestBody CommentDto dto){
         return ResponseEntity.ok(boardService.modifyComment(dto));
     }
+
+    @GetMapping("/graph")
+    public ResponseEntity<List<MemberResDto>> graphMemberList(){
+        return ResponseEntity.ok(boardService.allUserTf());
+    }
 }
 
