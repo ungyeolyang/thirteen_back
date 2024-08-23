@@ -40,4 +40,8 @@ public class MyController {
     public ResponseEntity<Boolean> withdraw () {
         return ResponseEntity.ok(memberService.withdraw());
     }
+    @PostMapping("pay")
+    public ResponseEntity<Boolean> pay(){
+        return ResponseEntity.ok(true);
+    }
 }

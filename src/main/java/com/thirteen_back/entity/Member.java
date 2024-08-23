@@ -32,6 +32,7 @@ public class Member {
     private LocalDateTime mdate;
     private TF withdrawal;
     private Long pay;
+    private Long tax;
     @Enumerated(EnumType.STRING)
     private Authority authority;
     @Enumerated(EnumType.STRING)

@@ -20,6 +20,7 @@ public class MemberResDto {
     private Social social;
     private TF tf;
     private Long pay;
+    private Long tax;
     private LocalDateTime mdate;
 
     public static MemberResDto of (Member member){
@@ -31,6 +32,7 @@ public class MemberResDto {
                 .social(member.getSocial())
                 .tf(member.getWithdrawal())
                 .pay(member.getPay())
+                .tax(member.getTax())
                 .mdate(member.getMdate())
                 .build();
     }

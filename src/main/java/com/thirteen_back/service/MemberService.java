@@ -68,6 +68,10 @@ public class MemberService {
                 member.setPay(Long.parseLong(info));
                 memberRepository.save(member);
                 return true;
+            case 6:
+                member.setTax(Long.parseLong(info));
+                memberRepository.save(member);
+                return true;
             default:
                 return false;
         }
